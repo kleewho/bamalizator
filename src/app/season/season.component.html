@@ -1,11 +1,10 @@
 <h2>Zawody sezonu 2019</h2>
 
 <ul class="season">
-  <li *ngFor="let race of races"
-    [class.selected]="race === selectedRace"
-    (click)="onSelect(race)">
+  <li *ngFor="let race of races">
+    <a routerLink="/detail/{{race.id}}">
       <span class="badge">{{race.id}}</span> {{race.name}}
+    </a>
   </li>
 </ul>
 
-<app-race [race]="selectedRace"></app-race>

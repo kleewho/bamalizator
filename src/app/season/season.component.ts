@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Race } from '../race'
+import { Race } from '../race';
 import { RACES } from '../mock-races';
+import { SeasonService } from '../season.service';
 
 @Component({
   selector: 'app-season',
@@ -8,14 +9,17 @@ import { RACES } from '../mock-races';
   styleUrls: ['./season.component.css']
 })
 export class SeasonComponent implements OnInit {
-  races = RACES;
-  selectedRace: Race;
-  onSelect(race: Race): void {
-    this.selectedRace = race;
+  races: Race[];
+
+  getRaces(): void {
+    this.seasonService.getRaces()
+      .subscribe(races => this.races = races)
   }
 
-  constructor() { }
+  constructor(private seasonService: SeasonService) { }
 
   ngOnInit(): void {
+    this.getRaces();
   }
 }
+// tytus

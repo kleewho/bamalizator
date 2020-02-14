@@ -1,0 +1,9 @@
+<h3>Zawody</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let race of races" class="col-1-4"
+    routerLink="/detail/{{race.id}}">
+    <div class="module hero">
+      <h4>{{race.name}}</h4>
+    </div>
+  </a>
+</div>
