@@ -14,6 +14,10 @@ export class SeasonService {
 
   allRaces = s2019.races.concat(s2020.races);
 
+  getSeasons(): Observable<Season[]> {
+    return of([s2019, s2020]);
+  }
+
   getRaces(): Observable<Race[]> {
     return of(s2019.races);
   }

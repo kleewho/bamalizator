@@ -1,4 +1,7 @@
+import { Race } from './race';
+
 export interface Season {
   year: number;
-  name: string;
+  participants: number;
+  races: Race[];
 }
