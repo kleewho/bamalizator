@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Race } from '../race';
-import { RACES } from '../mock-races';
 import { SeasonService } from '../season.service';
 
 @Component({
