@@ -36,7 +36,7 @@ for currentArgument, currentValue in arguments:
         year = currentValue
     elif currentArgument in ("-d", "--dir"):
         directory = currentValue
-        
+
 
 if not url:
     print ("url is missing. Tell me what do you want to scrape, please")
@@ -49,7 +49,7 @@ if not year:
 if not directory:
     print ("directory is missing")
     sys.exit(2)
-    
+
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
@@ -65,15 +65,15 @@ for row in tableRows:
     numberToName[number] = textContainingName
     if (verbose):
         print(("Name: %s" % (textContainingName)))
-    
+
 numberToNameFromFile = {}
 
 try:
     with open("%s/%s.json" % (directory, year)) as f:
         numberToNameFromFile = json.load(f)
-except IOError:
+except IOError as e:
     #swallow
-    print("Swallowing IOError")
+    print("Swallowing IOError", e)
 
 numberToName.update(numberToNameFromFile)
 
