@@ -53,6 +53,7 @@ if not directory:
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
+category = soup.findAll("div", {"class": "topannouncement"})[0].div.div.div.p.get_text().split(' ')[0].lower()
 tableRows = soup.findAll('tr')[1:]
 numberToName = {}
 endOn = 0
@@ -69,7 +70,7 @@ for row in tableRows:
 numberToNameFromFile = {}
 
 try:
-    with open("%s/%s.json" % (directory, year)) as f:
+    with open("%s/%s_%s.json" % (directory, year, category)) as f:
         numberToNameFromFile = json.load(f)
 except IOError as e:
     #swallow
@@ -80,7 +81,7 @@ numberToName.update(numberToNameFromFile)
 utf8NumberToName = {k : unicode(v).encode('utf8') for k, v in numberToName.items()}
 
 
-with open("%s/%s.json" % (directory, year), 'w') as f:
+with open("%s/%s_%s.json" % (directory, year, category), 'w') as f:
     json.dump(utf8NumberToName, f, ensure_ascii=False)
 
 print (("Number to name dictionary for %s have already %s records" % (year, len(utf8NumberToName))))

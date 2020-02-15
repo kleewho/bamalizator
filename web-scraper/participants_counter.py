@@ -5,7 +5,6 @@ import glob
 import os
 import io
 
-
 fullCmdArguments = sys.argv
 argumentList = fullCmdArguments[1:]
 print (argumentList)
@@ -45,24 +44,19 @@ for f in files:
     (idString, category) = basename.replace(".json", "").split("_")
     id = int(idString)
     year = idString[0:4]
+    seasonJsonPath = "%s/%s.json" % (assets, year)
     with open(f) as openedFile:
         participantsJson = json.load(openedFile)
     print(len(participantsJson))
-    with io.open("%s/%s.json" % (assets, year), 'r', encoding='utf-8-sig') as json_file:
+    with io.open(seasonJsonPath, 'r', encoding='utf-8-sig') as json_file:
         seasonJson = json.load(json_file)
-    # with open("%s/%s.json" % (assets, year)) as openedFile:
-    #     seasonJson = json.load(openedFile)
 
     for r in seasonJson["races"]:
-        print(r['id'])
         if (r[u'id'] == id):
-            print("found")
+            r[unicode(category, 'utf-8')] = {u'participants' : len(participantsJson)}
             print(r)
-            r[unicode(category, 'utf-8')] = len(participantsJson)
-            print(r)
-    print(seasonJson)
 
-    with io.open("%s/%s.json" % (assets, year), 'w', encoding='utf8') as fp:
+    with io.open(seasonJsonPath, 'w', encoding='utf8') as fp:
         data = json.dumps(seasonJson, fp, ensure_ascii=False)
         fp.write(data)
 

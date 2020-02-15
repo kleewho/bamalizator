@@ -2,4 +2,8 @@
   <h2>{{race.name | uppercase}} szczegóły</h2>
   <div><span>data: </span>{{race.date}}</div>
   <div><span>miasto: </span>{{race.name}}</div>
+  <div><span>uczestników:</span>{{race.family.participants + race.hobby.participants + race.pro.participants}}</div>
+  <div><span>pro:</span>{{race.family.participants}}</div>
+  <div><span>hobby:</span>{{race.hobby.participants}}</div>
+  <div><span>family:</span>{{race.pro.participants}}</div>
 </div>

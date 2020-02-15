@@ -5,67 +5,184 @@
     {
       "id": 202001,
       "name": "Rybnik",
-      "date": "19.04.2020"
+      "date": "19.04.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202002,
       "name": "Psary",
-      "date": "10.05.2020"
+      "date": "10.05.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202003,
       "name": "Brenna",
-      "date": "24.05.2020"
+      "date": "24.05.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202004,
       "name": "Olkusz",
-      "date": "07.06.2020"
+      "date": "07.06.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202005,
       "name": "Ustroń",
-      "date": "21.06.2020"
+      "date": "21.06.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202006,
       "name": "Jeleśnia",
-      "date": "05.07.2020"
+      "date": "05.07.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202007,
       "name": "Racibórz",
-      "date": "26.07.2020"
+      "date": "26.07.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202008,
       "name": "Jablunkov",
-      "date": "08.08.2020"
+      "date": "08.08.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202009,
       "name": "Zdzieszowice",
-      "date": "23.08.2020"
+      "date": "23.08.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202010,
       "name": "Żywiec",
-      "date": "13.09.2020"
+      "date": "13.09.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202011,
       "name": "Wisła",
-      "date": "27.09.2020"
+      "date": "27.09.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202012,
       "name": "Chrzanów",
-      "date": "04.10.2020"
+      "date": "04.10.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     },
     {
       "id": 202013,
       "name": "Dąbrowa Górnicza",
-      "date": "17.10.2020"
+      "date": "17.10.2020",
+      "hobby": {
+        "participants": 0
+      },
+      "pro": {
+        "participants": 0
+      },
+      "family": {
+        "participants": 0
+      }
     }
   ]
 }
