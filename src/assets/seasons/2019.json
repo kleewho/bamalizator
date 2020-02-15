@@ -1,52 +1,53 @@
 {
   "year": 2019,
+  "participants": 2378,
   "races": [
     {
-      "id": 11,
+      "id": 201901,
       "name": "Rybnik"
     },
     {
-      "id": 12,
+      "id": 201902,
       "name": "Dąbrowa Górnicza"
     },
     {
-      "id": 13,
+      "id": 201903,
       "name": "Ustroń"
     },
     {
-      "id": 14,
+      "id": 201904,
       "name": "Olkusz"
     },
     {
-      "id": 15,
+      "id": 201905,
       "name": "Brenna"
     },
     {
-      "id": 16,
+      "id": 201906,
       "name": "Racibórz-Rafako"
     },
     {
-      "id": 17,
+      "id": 201907,
       "name": "Żarki/Niegowa/Janów"
     },
     {
-      "id": 18,
+      "id": 201908,
       "name": "Jeleśnia"
     },
     {
-      "id": 19,
+      "id": 201909,
       "name": "Psary"
     },
     {
-      "id": 20,
+      "id": 201910,
       "name": "Żywiec"
     },
     {
-      "id": 21,
+      "id": 201911,
       "name": "Kielce"
     },
     {
-      "id": 22,
+      "id": 201912,
       "name": "Częstochowa"
     }
   ]
