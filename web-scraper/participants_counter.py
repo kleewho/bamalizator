@@ -3,6 +3,8 @@ import getopt, sys
 import json
 import glob
 import os
+import io
+
 
 fullCmdArguments = sys.argv
 argumentList = fullCmdArguments[1:]
@@ -46,8 +48,10 @@ for f in files:
     with open(f) as openedFile:
         participantsJson = json.load(openedFile)
     print(len(participantsJson))
-    with open("%s/%s.json" % (assets, year)) as openedFile:
-        seasonJson = json.load(openedFile)
+    with io.open("%s/%s.json" % (assets, year), 'r', encoding='utf-8-sig') as json_file:
+        seasonJson = json.load(json_file)
+    # with open("%s/%s.json" % (assets, year)) as openedFile:
+    #     seasonJson = json.load(openedFile)
 
     for r in seasonJson["races"]:
         print(r['id'])
@@ -58,13 +62,7 @@ for f in files:
             print(r)
     print(seasonJson)
 
-
-
-
-
-
-
-
-
-
+    with io.open("%s/%s.json" % (assets, year), 'w', encoding='utf8') as fp:
+        data = json.dumps(seasonJson, fp, ensure_ascii=False)
+        fp.write(data)
 
