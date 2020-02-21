@@ -4,12 +4,45 @@ import json
 import sqlite3
 from bs4 import BeautifulSoup
 
-def is_int(value):
-  try:
-    int(value)
-    return True
-  except:
-    return False
+class BamRepository():
+    def __init__(self):
+        self.conn = sqlite3.connect('data/bam.db')
+
+    def __enter__(self):
+        return self
+
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.conn.commit()
+        self.conn.close()
+
+    def saveRace(self, date, city, year):
+      print('Saving race')
+      c = self.conn.cursor()
+      c.execute('insert into race(date,city,year) values(?,?,?) on conflict do nothing', (date,city,year))
+      return [r[0] for r in c.execute('select id from race where date = ?', (date,))][0]
+
+    def saveRoute(self, raceId, distance, category):
+      print('Saving route')
+      c = self.conn.cursor()
+      c.execute('insert into route(raceId,distance,category) values(?,?,?) on conflict do nothing', (raceId,distance,category))
+      return [r[0] for r in c.execute('select id from route where category like ? and raceId = ?', (category, raceId))][0]
+
+    def saveBibNumber(self, number, year):
+      print("Saving bibNumber %s for year %s" % (number, year))
+      c = self.conn.cursor()
+      c.execute('insert into bibNumber(bibNumber,year,bibNumberAndYear) values(?,?,?) on conflict do nothing', (number,year,("%s%s"%(number,year))))
+      print('Fetching bibNumberId using select')
+      bibNumberId = [r[0] for r in c.execute('select id from bibNumber where bibNumber = ? and year = ?', (number,year))][0]
+      print("Current bibNumberId %s" % (bibNumberId))
+      return bibNumberId
+
+    def saveRaceResult(self, bibNumberId, routeId, time, checkpoint1, DNS, DNF):
+      print("Saving raceResult for bibNumberId %s and routeId %s" % (bibNumberId, routeId))
+      c = self.conn.cursor()
+      c.execute('insert into raceResult(bibNumberId,routeId,time,checkpointTime1,DNS,DNF) values(?,?,?,?,?,?) on conflict do nothing', (bibNumberId,routeId,time,checkpointTime1,DNS,DNF))
+
+      return c.lastrowid
 
 fullCmdArguments = sys.argv
 argumentList = fullCmdArguments[1:]
@@ -58,49 +91,52 @@ category = soup.findAll("div", {"class": "topannouncement"})[0].div.div.div.p.ge
 (city, countryAndDate) = soup.findAll("div", {"class": "subheader-minisite"})[0].div.div.findAll("p")[0].get_text().split(',')
 (day,month,year) = countryAndDate[-10:].split('.')
 
+with BamRepository() as bamRepository:
+  raceId = bamRepository.saveRace(("%s-%s-%s" % (year,month,day)),city,year)
+  print(raceId)
+  routeId = bamRepository.saveRoute(raceId, 28, category)
+  print(routeId)
 
-conn = sqlite3.connect('data/bam.db')
-c = conn.cursor()
-raceId = [r[0] for r in c.execute('select id from race where city = ? and year = ?', (city, year))][0]
-routeId = [r[0] for r in c.execute('select id from route where category like ? and raceId = ?', (category, raceId))][0]
+  tableRows = soup.findAll('tr')[1:]
+  numberToName = {}
+  endOn = 0
+  for row in tableRows:
+      if (verbose):
+          print (row.get_text())
+      tds = row.findAll("td")
+      print(tds)
+      number = str(int(tds[1].get_text()))
+      bibNumberId = bamRepository.saveBibNumber(number, year)
+      textContainingName = filter(lambda el: len(el) > 0, [el.strip() for el in tds[0].get_text().split("\n")])[1]
+      time = tds[-1].get_text()
+      checkpointTime1 = tds[4].get_text()
+      print(time)
+      print(checkpointTime1)
+      numberToName[number] = textContainingName
+      if (verbose):
+          print(("Name: %s" % (textContainingName)))
 
-tableRows = soup.findAll('tr')[1:]
-numberToName = {}
-endOn = 0
-for row in tableRows:
-    if (verbose):
-        print (row.get_text())
-    tds = row.findAll("td")
-    print(tds)
-    number = str(int(tds[1].get_text()))
-    textContainingName = filter(lambda el: len(el) > 0, [el.strip() for el in tds[0].get_text().split("\n")])[1]
-    time = tds[-1].get_text()
-    checkpointTime1 = tds[4].get_text()
-    print(time)
-    print(checkpointTime1)
-    numberToName[number] = textContainingName
-    if (verbose):
-        print(("Name: %s" % (textContainingName)))
-    c.execute('insert into bibNumber(number,year) values (?,?)',(number, year))
-    c.execute('insert into raceResult(bibNumberId,raceId,routeId,time,checkpointTime1) values (?,?,?,?,?)',(1,1,1,time,checkpointTime1))
-
-numberToNameFromFile = {}
-
-try:
-    with open("%s/%s_%s.json" % (directory, year, category)) as f:
-        numberToNameFromFile = json.load(f)
-except IOError as e:
-    #swallow
-    print("Swallowing IOError", e)
-
-conn.close()
-
-numberToName.update(numberToNameFromFile)
-
-utf8NumberToName = {k : unicode(v).encode('utf8') for k, v in numberToName.items()}
+      bamRepository.saveRaceResult(bibNumberId, routeId, time, checkpointTime1, False, False)
 
 
-with open("%s/%s_%s.json" % (directory, year, category), 'w') as f:
-    json.dump(utf8NumberToName, f, ensure_ascii=False)
+# numberToNameFromFile = {}
 
-print (("Number to name dictionary for %s have already %s records" % (year, len(utf8NumberToName))))
+# try:
+#     with open("%s/%s_%s.json" % (directory, year, category)) as f:
+#         numberToNameFromFile = json.load(f)
+# except IOError as e:
+#     #swallow
+#     print("Swallowing IOError", e)
+
+# conn.close()
+
+# numberToName.update(numberToNameFromFile)
+
+# utf8NumberToName = {k : unicode(v).encode('utf8') for k, v in numberToName.items()}
+
+
+# with open("%s/%s_%s.json" % (directory, year, category), 'w') as f:
+#     json.dump(utf8NumberToName, f, ensure_ascii=False)
+
+# print (("Number to name dictionary for %s have already %s records" % (year, len(utf8NumberToName))))
+

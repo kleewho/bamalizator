@@ -2,13 +2,16 @@ create table race (
   id integer primary key,
   date text not null,
   city text not null,
-  year integer not null
+  year integer not null,
+  UNIQUE(date)
 );
 
 create table bibNumber (
   id integer primary key,
-  number integer not null,
-  year integer not null
+  bibNumber integer not null,
+  year integer not null,
+  bibNumberAndYear text not null,
+  UNIQUE(bibNumberAndYear)
 );
 
 create table route (
@@ -16,13 +19,13 @@ create table route (
   raceId integer not null,
   distance integer not null,
   category text not null,
-  foreign key(raceId) references race(id)
+  foreign key(raceId) references race(id),
+  UNIQUE(raceId,category)
 );
 
 create table raceResult (
   id integer primary key,
   bibNumberId integer not null,
-  raceId integer not null,
   routeId integer not null,
   time text,
   checkpointTime1 text,
@@ -34,8 +37,6 @@ create table raceResult (
   DNF boolean default false,
   foreign key(bibNumberId) references bibNumber(id),
   foreign key(routeId) references route(id),
-  foreign key(raceId) references race(id)
+  UNIQUE(bibNumberId,routeId)
 );
 
-insert into race(date,city,year) values ('2019-04-14','Rybnik',2019);
-insert into route(raceId,distance,category) values (1,28,'Hobby');
