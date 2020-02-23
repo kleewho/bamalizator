@@ -23,7 +23,7 @@ pipenv run python scrape-zapisy-mktime.py -y 201907 -d data/ -u https://zapisy.m
 pipenv run python scrape-zapisy-mktime.py -y 201907 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-zarki-c3067-8415_0.pl.html
 pipenv run python scrape-zapisy-mktime.py -y 201908 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-jelesnia-c3068-10592_0.pl.html
 pipenv run python scrape-zapisy-mktime.py -y 201908 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-jelesnia-c3068-8416_0.pl.html
-pipenv run python scrape-zapisy-mktime.py -y 201908 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-zarki-c3067-8415_0.pl.html
+pipenv run python scrape-zapisy-mktime.py -y 201908 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-jelesnia-c3068-8417_0.pl.html
 pipenv run python scrape-zapisy-mktime.py -y 201909 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-psary-c3069-10742_0.pl.html
 pipenv run python scrape-zapisy-mktime.py -y 201909 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-psary-c3069-8418_0.pl.html
 pipenv run python scrape-zapisy-mktime.py -y 201909 -d data/ -u https://zapisy.mktime.pl/bike-atelier-mtb-maraton-2019-psary-c3069-8419_0.pl.html

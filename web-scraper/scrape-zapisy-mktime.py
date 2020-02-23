@@ -31,16 +31,16 @@ class BamRepository():
     def saveBibNumber(self, number, year):
       print("Saving bibNumber %s for year %s" % (number, year))
       c = self.conn.cursor()
-      c.execute('insert into bibNumber(bibNumber,year,bibNumberAndYear) values(?,?,?) on conflict do nothing', (number,year,("%s%s"%(number,year))))
+      c.execute('insert into bibNumber(bibNumber,year) values(?,?) on conflict do nothing', (number,year))
       print('Fetching bibNumberId using select')
       bibNumberId = [r[0] for r in c.execute('select id from bibNumber where bibNumber = ? and year = ?', (number,year))][0]
       print("Current bibNumberId %s" % (bibNumberId))
       return bibNumberId
 
-    def saveRaceResult(self, bibNumberId, routeId, time, checkpoint1, DNS, DNF):
+    def saveRaceResult(self, bibNumberId, routeId, time, checkpoint1, DNS, DNF, DSQ):
       print("Saving raceResult for bibNumberId %s and routeId %s" % (bibNumberId, routeId))
       c = self.conn.cursor()
-      c.execute('insert into raceResult(bibNumberId,routeId,time,checkpointTime1,DNS,DNF) values(?,?,?,?,?,?) on conflict do nothing', (bibNumberId,routeId,time,checkpointTime1,DNS,DNF))
+      c.execute('insert into raceResult(bibNumberId,routeId,time,checkpointTime1,DNS,DNF,DSQ) values(?,?,?,?,?,?,?) on conflict do nothing', (bibNumberId,routeId,time,checkpointTime1,DNS,DNF,DSQ))
 
       return c.lastrowid
 
@@ -88,13 +88,14 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.text, "html.parser")
 category = soup.findAll("div", {"class": "topannouncement"})[0].div.div.div.p.get_text().split(' ')[0].lower()
+distance = int(soup.findAll("div", {"class": "topannouncement"})[0].div.div.div.p.get_text().split(' ')[1])
 (city, countryAndDate) = soup.findAll("div", {"class": "subheader-minisite"})[0].div.div.findAll("p")[0].get_text().split(',')
 (day,month,year) = countryAndDate[-10:].split('.')
 
 with BamRepository() as bamRepository:
   raceId = bamRepository.saveRace(("%s-%s-%s" % (year,month,day)),city,year)
   print(raceId)
-  routeId = bamRepository.saveRoute(raceId, 28, category)
+  routeId = bamRepository.saveRoute(raceId, distance, category)
   print(routeId)
 
   tableRows = soup.findAll('tr')[1:]
@@ -109,6 +110,19 @@ with BamRepository() as bamRepository:
       bibNumberId = bamRepository.saveBibNumber(number, year)
       textContainingName = filter(lambda el: len(el) > 0, [el.strip() for el in tds[0].get_text().split("\n")])[1]
       time = tds[-1].get_text()
+      DNF = False
+      DNS = False
+      DSQ = False
+      if time.upper() == 'DNF':
+          time = ""
+          DNF = True
+      elif time.upper() == 'DNS':
+          time = ""
+          DNS = True
+      elif time.upper() == 'DSQ':
+          time = ""
+          DSQ = True
+    
       checkpointTime1 = tds[4].get_text()
       print(time)
       print(checkpointTime1)
@@ -116,7 +130,7 @@ with BamRepository() as bamRepository:
       if (verbose):
           print(("Name: %s" % (textContainingName)))
 
-      bamRepository.saveRaceResult(bibNumberId, routeId, time, checkpointTime1, False, False)
+      bamRepository.saveRaceResult(bibNumberId, routeId, time, checkpointTime1, DNS, DNF, DSQ)
 
 
 # numberToNameFromFile = {}

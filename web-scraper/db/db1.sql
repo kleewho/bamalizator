@@ -10,14 +10,13 @@ create table bibNumber (
   id integer primary key,
   bibNumber integer not null,
   year integer not null,
-  bibNumberAndYear text not null,
-  UNIQUE(bibNumberAndYear)
+  UNIQUE(bibNumber,year)
 );
 
 create table route (
   id integer primary key,
   raceId integer not null,
-  distance integer not null,
+  distance integer,
   category text not null,
   foreign key(raceId) references race(id),
   UNIQUE(raceId,category)
@@ -35,6 +34,7 @@ create table raceResult (
   checkpointTime5 text,
   DNS boolean default false,
   DNF boolean default false,
+  DSQ boolean default false,
   foreign key(bibNumberId) references bibNumber(id),
   foreign key(routeId) references route(id),
   UNIQUE(bibNumberId,routeId)
