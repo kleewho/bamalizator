@@ -1,8 +1,11 @@
 <div *ngIf="race">
-  <h2>{{race.name | uppercase}} szczegóły</h2>
+  <h2>{{race.city | uppercase}} szczegóły</h2>
   <div><span>data: </span>{{race.date}}</div>
-  <div><span>miasto: </span>{{race.name}}</div>
-  <div><span>uczestników:</span>{{race.family.participants + race.hobby.participants + race.pro.participants}}</div>
+  <div><span>miasto: </span>{{race.city}}</div>
+  <div><span>uczestników:</span>{{race.participants}}</div>
+  <div><span>dnf:</span>{{race.dnf}}<span>procent:</span>{{race.percentDnf | percent}}</div>
+  <div><span>dns:</span>{{race.dns}}<span>procent:</span>{{race.percentDns | percent}}</div>
+  <div><span>dsq:</span>{{race.dsq}}</div>
   <div><span>pro:</span>{{race.family.participants}}</div>
   <div><span>hobby:</span>{{race.hobby.participants}}</div>
   <div><span>family:</span>{{race.pro.participants}}</div>

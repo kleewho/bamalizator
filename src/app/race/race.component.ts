@@ -23,6 +23,8 @@ export class RaceComponent implements OnInit {
 
   getRace(): void {
     const id = +this.route.snapshot.paramMap.get('id');
+    console.log(`Fetching race with id ${id}`);
+    
     this.seasonService.getRace(id)
       .subscribe(race => this.race = race);
   }

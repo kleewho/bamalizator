@@ -2,7 +2,8 @@ import json
 import sqlite3
 from collections import defaultdict
 import io
-import getopt, sys
+import getopt
+import sys
 
 year = 2019
 
@@ -17,17 +18,18 @@ try:
     arguments, values = getopt.getopt(argumentList, unixOptions, gnuOptions)
 except getopt.error as err:
     # output error, and return with an error code
-    print (str(err))
+    print(str(err))
     sys.exit(2)
 
 
 for currentArgument, currentValue in arguments:
     if currentArgument in ("-h", "--help"):
-        print ("displaying help")
+        print("displaying help")
     elif currentArgument in ("-y", "--year"):
         year = currentValue
     elif currentArgument in ("-d", "--dir"):
         directory = currentValue
+
 
 class BamDb():
     def __init__(self):
@@ -83,8 +85,11 @@ WHERE ra.year = ?
 ORDER BY ra.date, ro.category
 """
 
+
 def percent(what, total):
-    return (float(what)/total)*100
+    return float(what)/total
+
+
 def calculateParticipants(finished, dnf, dns, dsq):
     participants = finished + dnf + dsq
     return {'participants': participants,
@@ -102,6 +107,7 @@ def createCategory(category, finished, dnf, dns, dsq):
 
 def sumInCategories(key, categories):
     return reduce(lambda sum, c: sum + c[key], categories, 0)
+
 
 with BamDb() as bamDb:
     print("Creating report for year %s" % (year,))
@@ -131,22 +137,26 @@ with BamDb() as bamDb:
                       for ro in raceInfo]
 
         raceParticipants = calculateParticipants(sumInCategories('finished', categories),
-                sumInCategories('dnf', categories),
-                sumInCategories('dns', categories),
-                sumInCategories('dsq', categories))
+                                                 sumInCategories(
+                                                     'dnf', categories),
+                                                 sumInCategories(
+                                                     'dns', categories),
+                                                 sumInCategories('dsq', categories))
 
-        race = merge_two_dicts({'id': ("%s_%s" % (year, i+1)),
-                'city': raceInfo[0]['city'],
-                'date': raceInfo[0]['date']
-                }, raceParticipants)
+        race = merge_two_dicts({'id': int(year) * 100 + i + 1,
+                                'city': raceInfo[0]['city'],
+                                'date': raceInfo[0]['date']
+                                }, raceParticipants)
 
         for c in categories:
             category = c.pop('category')
             race[category] = c
         races.append(race)
 
-    yearReport = {'participants': participants,
-                  'races': races}
+    yearReport = {
+        'year': int(year),
+        'participants': participants,
+        'races': races}
 
     fullPath = "%s/%s.json" % (directory, year)
     with io.open(fullPath, 'w', encoding='utf8') as fp:

@@ -1,12 +1,25 @@
 export interface Race {
     id: number;
-    name: string;
+    city: string;
     date: string;
+    dnf: number;
+    dns: number;
+    dsq: number;
+    finished: number;
+    participants: number;
+    percentDnf: number;
+    percentDns: number;
     hobby: Category;
     pro: Category;
-    family: Category;
+    family?: Category;
 }
 
 export interface Category {
+    dnf: number;
+    dns: number;
+    dsq: number;
+    finished: number;
     participants: number;
+    percentDnf: number;
+    percentDns: number;
 }
