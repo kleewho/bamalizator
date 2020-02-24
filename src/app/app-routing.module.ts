@@ -5,7 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RaceComponent } from './race/race.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/season', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'season', component: SeasonComponent },
   { path: 'detail/:id', component: RaceComponent },
