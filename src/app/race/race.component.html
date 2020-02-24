@@ -1,12 +1,57 @@
-<div *ngIf="race">
-  <h2>{{race.city | uppercase}} szczegóły</h2>
-  <div><span>data: </span>{{race.date}}</div>
-  <div><span>miasto: </span>{{race.city}}</div>
-  <div><span>uczestników:</span>{{race.participants}}</div>
-  <div><span>dnf:</span>{{race.dnf}}<span>procent:</span>{{race.percentDnf | percent}}</div>
-  <div><span>dns:</span>{{race.dns}}<span>procent:</span>{{race.percentDns | percent}}</div>
-  <div><span>dsq:</span>{{race.dsq}}</div>
-  <div><span>pro:</span>{{race.family.participants}}</div>
-  <div><span>hobby:</span>{{race.hobby.participants}}</div>
-  <div><span>family:</span>{{race.pro.participants}}</div>
+<div class="row">
+<h2>{{race.city | uppercase}} szczegóły</h2>
+<div *ngIf="race" class="col-sm-12">
+
+  <div class="col-sm-3"><div><span>data: </span>{{race.date}}</div>
+  <div><span>miasto: </span>{{race.city}}</div></div>  
+  <div class="col-sm-9"><table class="horizontal striped">
+    <caption>Uczestniczy</caption>
+    <thead>
+      <tr>
+        <th>Kategoria</th>
+        <th>Wystartowało</th>
+        <th>Nie ukończyło</th>
+        <th>Nie ukończyło %</th>
+        <th>Nie pojawiło się</th>
+        <th>Nie pojawiło się %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Kategoria">FAMILY</td>
+        <td data-label="Wystartowało">{{race.family.participants}}</td>
+        <td data-label="Nie ukończyło">{{race.family.dnf}}</td>
+        <td data-label="Nie ukończyło %">{{race.family.percentDnf | percent}}</td>
+        <td data-label="Nie pojawiło się">{{race.family.dns}}</td>
+        <td data-label="Nie pojawiło się %">{{race.family.percentDns | percent}}</td>
+      </tr>
+      <tr>
+        <td data-label="Kategoria">HOBBY</td>
+        <td data-label="Wystartowało">{{race.hobby.participants}}</td>
+        <td data-label="Nie ukończyło">{{race.hobby.dnf}}</td>
+        <td data-label="Nie ukończyło %">{{race.hobby.percentDnf | percent}}</td>
+        <td data-label="Nie pojawiło się">{{race.hobby.dns}}</td>
+        <td data-label="Nie pojawiło się %">{{race.hobby.percentDns | percent}}</td>
+      </tr>
+      <tr>
+        <td data-label="Kategoria">PRO</td>
+        <td data-label="Wystartowało">{{race.pro.participants}}</td>
+        <td data-label="Nie ukończyło">{{race.pro.dnf}}</td>
+        <td data-label="Nie ukończyło %">{{race.pro.percentDnf | percent}}</td>
+        <td data-label="Nie pojawiło się">{{race.pro.dns}}</td>
+        <td data-label="Nie pojawiło się %">{{race.pro.percentDns | percent}}</td>
+      </tr>
+      <tr>
+        <td data-label="Kategoria">Łącznie</td>
+        <td data-label="Wystartowało">{{race.participants}}</td>
+        <td data-label="Nie ukończyło">{{race.dnf}}</td>
+        <td data-label="Nie ukończyło %">{{race.percentDnf | percent}}</td>
+        <td data-label="Nie pojawiło się">{{race.dns}}</td>
+        <td data-label="Nie pojawiło się %">{{race.percentDns | percent}}</td>
+      </tr>
+    </tbody>
+  </table></div>
+  
+  
+</div>
 </div>
